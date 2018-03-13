@@ -56,6 +56,23 @@ router.get('/notes/:id', (req, res, next) => {
     })
     .catch(err => next(err));
   */
+
+  knex.select('id', 'title', 'content')
+    .from('notes')
+    .where({ id: noteId })
+    .then(item => {
+      // console.log(item);
+      if (item) {
+        res.json(item[0]);
+      } else {
+        next();
+      }
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => next(err));
+
 });
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
@@ -89,6 +106,26 @@ router.put('/notes/:id', (req, res, next) => {
     })
     .catch(err => next(err));
   */
+
+  knex
+    .from('notes')
+    .where({ id: noteId })
+    .update(updateObj)
+    .returning('id', 'title', 'content')
+    .then(item => {
+      // console.log(item);
+      if (item) {
+        res.json(item);
+      } else {
+        next();
+      }
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => next(err));
+
+
 });
 
 /* ========== POST/CREATE ITEM ========== */
@@ -112,6 +149,21 @@ router.post('/notes', (req, res, next) => {
     })
     .catch(err => next(err));
   */
+
+  knex
+    .insert(newItem)
+    .into('notes')
+    .returning(['id', 'title', 'content'])
+    .then(item => {
+      if (item) {
+        res.location(`http://${req.headers.host}/notes/${item.id}`).status(201).json(item);
+      }
+      // console.log(JSON.stringify(res, null, 4));
+      res.json();
+    })
+    .catch(err => next(err));
+
+
 });
 
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
@@ -129,6 +181,24 @@ router.delete('/notes/:id', (req, res, next) => {
     })
     .catch(err => next(err));
   */
+
+  knex
+    .from('notes')
+    .where({ id: id })
+    .del()
+    .returning('id', 'title', 'content')
+    .then(count => {
+      // console.log(count)
+      if (count) {
+        res.status(204).end();
+      } else {
+        next();
+      }
+    })
+    .catch(err => next(err));
+
+
+
 });
 
 module.exports = router;
