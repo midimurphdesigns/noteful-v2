@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const knex = require('../knex');
 
 // Create an router instance (aka "mini-app")
 const router = express.Router();
@@ -23,6 +24,21 @@ router.get('/notes', (req, res, next) => {
     })
     .catch(err => next(err)); 
   */
+
+  knex.select('id', 'title', 'content')
+    .from('notes')
+    .where(function () {
+      if (searchTerm) {
+        this.where('title', 'like', `%${searchTerm}%`);
+      }
+    })
+    // .limit()
+    .then(list => {
+      res.json(list);
+      console.log(list);
+    })
+    .catch(err => next(err));
+
 });
 
 /* ========== GET/READ SINGLE NOTES ========== */
@@ -78,7 +94,7 @@ router.put('/notes/:id', (req, res, next) => {
 /* ========== POST/CREATE ITEM ========== */
 router.post('/notes', (req, res, next) => {
   const { title, content } = req.body;
-  
+
   const newItem = { title, content };
   /***** Never trust users - validate input *****/
   if (!newItem.title) {
@@ -101,7 +117,7 @@ router.post('/notes', (req, res, next) => {
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
 router.delete('/notes/:id', (req, res, next) => {
   const id = req.params.id;
-  
+
   /*
   notes.delete(id)
     .then(count => {
