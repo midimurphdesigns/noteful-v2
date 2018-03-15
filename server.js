@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const { PORT } = require('./config');
 
 const notesRouterV2 = require('./routes/notes.router');
+const foldersRouterV2 = require('./routes/folders.router');
 
 // Create an Express application
 const app = express();
@@ -22,7 +23,8 @@ app.use(express.static('public'));
 app.use(express.json());
 
 // Mount router on "/v2"
-app.use('/v2', notesRouterV2);
+app.use('/v2/notes', notesRouterV2);
+app.use('/v2/folders', foldersRouterV2);
 
 // Catch-all 404
 app.use(function (req, res, next) {
