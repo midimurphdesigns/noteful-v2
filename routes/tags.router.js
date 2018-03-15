@@ -4,24 +4,25 @@ const express = require('express');
 const knex = require('../knex');
 const router = express.Router();
 
-//Get all folders endpoint
+/* ========== Get all tags ========== */
 router.get('/', (req, res, next) => {
   knex.select('id', 'name')
-    .from('folders')
+    .from('tags')
     .then(results => {
       res.json(results);
     })
     .catch(err => next(err));
 });
 
-//Get folder by id
-router.get('/:id', (req, res, next) => {
-  const folderId = req.params.id;
 
-  knex
-    .first('id', 'name')
-    .from('folders')
-    .where({ id: folderId })
+
+/* ========== Get tag by ID ========== */
+router.get('/:id', (req, res, next) => {
+  const tagId = req.params.id;
+
+  knex.first('id', 'name')
+    .from('tags')
+    .where({ id: tagId})
     .then(results => {
       if (results) {
         res.json(results);
@@ -30,12 +31,12 @@ router.get('/:id', (req, res, next) => {
       }
     })
     .catch(err => next(err));
-
 });
 
-//Update folder
+
+/* ========== Put/update tag ========== */
 router.put('/:id', (req, res, next) => {
-  const folderId = req.params.id;
+  const tagId = req.params.id;
   const updateObj = {};
   const updateableFields = ['id', 'name'];
 
@@ -52,11 +53,11 @@ router.put('/:id', (req, res, next) => {
   }
 
   knex.select('id', 'name')
-    .from('folders')
-    .where({ id: folderId })
+    .from ('tags')
+    .where({ id: tagId })
     .update(updateObj)
     .returning([ 'id', 'name' ])
-    .then(([results]) => {
+    .then( ([results]) => {
       if (results) {
         res.json(results);
       } else {
@@ -64,35 +65,42 @@ router.put('/:id', (req, res, next) => {
       }
     })
     .catch(err => next(err));
-
 });
 
-//Create folder
-router.post('/', (req, res, next) => {
-  const { id, name } = req.body;
-  const newItem = { id, name };
 
-  knex
-    .insert(newItem)
-    .into('folders')
+
+/* ========== Post/create tag ========== */
+router.post('/', (req, res, next) => {
+  const { name } = req.body;
+
+  if (!name) {
+    const err = new Error('Missing `name` in request boddy');
+    err.status = 400;
+    return next(err);
+  }
+
+  const newItem = { name };
+
+  knex.insert(newItem)
+    .into('tags')
     .returning(['id', 'name'])
-    .then(results => {
-      if (results) {
-        res.location(`http://${req.headers.host}/folders/${results.id}`).status(201).json(results);
-      }
-      res.json();
+    .then (results => {
+      // Uses Array index solution to get first item in results array
+      const result = results;
+      res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
     .catch(err => next(err));
-
 });
 
-//Delete folder
+
+
+/* ========== Delete tag ========== */
 router.delete('/:id', (req, res, next) => {
-  const folderId = req.params.id;
+  const tagId = req.params.id;
 
   knex.select('id', 'name')
-    .from('folders')
-    .where({ id: folderId })
+    .from('tags')
+    .where({ id: tagId })
     .del()
     .then(count => {
       if (count) {
@@ -103,6 +111,9 @@ router.delete('/:id', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+
+
+
 
 
 module.exports = router;

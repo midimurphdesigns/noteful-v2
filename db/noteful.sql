@@ -1,6 +1,8 @@
 -- psql -U dev -f ./db/noteful.sql -d noteful-app
 SELECT CURRENT_DATE;
 
+DROP TABLE IF EXISTS notes_tags;
+DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS folders;
 
@@ -85,5 +87,43 @@ VALUES
     101
   );
 
+CREATE TABLE tags
+(
+  id serial PRIMARY KEY,
+  name text NOT NULL
+);
+
+INSERT INTO tags
+  (name)
+VALUES
+  ('funny'),
+  ('news'),
+  ('shopping'),
+  ('web dev');
+
+CREATE TABLE notes_tags (
+  note_id INTEGER NOT NULL REFERENCES notes ON DELETE CASCADE,
+  tag_id INTEGER NOT NULL REFERENCES tags ON DELETE CASCADE
+);
+
+INSERT INTO notes_tags
+  (note_id, tag_id)
+VALUES
+  (1000, 1),
+  (1001, 2),
+  (1002, 3),
+  (1003, 4),
+  (1004, 1),
+  (1005, 2),
+  (1006, 3),
+  (1007, 4),
+  (1008, 1),
+  (1009, 2);
+
 -- -- get all notes
 -- SELECT * FROM notes;
+
+-- SELECT title, tags.name, folders.name FROM notes
+-- LEFT JOIN folders ON notes.folder_id = folders.id
+-- LEFT JOIN notes_tags ON notes.id = notes_tags.note_id
+-- LEFT JOIN tags ON notes_tags.tag_id = tags.id;

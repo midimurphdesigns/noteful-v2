@@ -17,9 +17,11 @@ router.get('/', (req, res, next) => {
   const { searchTerm, folderId } = req.query;
   // const folderId = req.params.folderId;
 
-  knex.select('notes.id', 'title', 'content', 'folders.id as folder_Id', 'folders.name as folderName')
+  knex.select('notes.id', 'title', 'content', 'folders.id as folder_Id', 'folders.name as folderName', 'tags.name as tags_name')
     .from('notes')
     .leftJoin('folders', 'notes.folder_id', 'folders.id')
+    .leftJoin('notes_tags', 'notes.id', 'notes_tags.note_id')
+    .leftJoin('tags', 'notes_tags.tag_id', 'tags.id')
     .modify(function (queryBuilder) {
       if (searchTerm) {
         queryBuilder.where('title', 'like', `%${searchTerm}%`);
