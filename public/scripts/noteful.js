@@ -122,6 +122,7 @@ const noteful = (function () {
 
       api.details(`/api/notes/${noteId}`)
         .then((response) => {
+          console.log(response);
           store.currentNote = response;
           render();
         });
@@ -283,12 +284,11 @@ const noteful = (function () {
       //TODO; loop over tags, if not a match, then clear
       store.currentNote = {};
 
-      console.log('Get notes by tagId, coming soon...');
-      // api.search('/api/notes', store.currentQuery)
-      //   .then(response => {
-      //     store.notes = response;
-      //     render();
-      //   });
+      api.search('/api/notes', store.currentQuery)
+        .then(response => {
+          store.notes = response;
+          render();
+        });
     });
   }
 
@@ -298,17 +298,16 @@ const noteful = (function () {
 
       const newTagName = $('.js-new-tag-entry').val();
 
-      console.log('Create a tag, coming soon...');
-      // api.create('/api/tags', { name: newTagName })
-      //   .then(() => {
-      //     return api.search('/api/tags');
-      //   }).then(response => {
-      //     store.tags = response;
-      //     render();
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //   });
+      api.create('/api/tags', { name: newTagName })
+        .then(() => {
+          return api.search('/api/tags');
+        }).then(response => {
+          store.tags = response;
+          render();
+        })
+        .catch(err => {
+          console.error(err);
+        });
     });
   }
 
@@ -323,19 +322,18 @@ const noteful = (function () {
 
       store.currentNote = {};
       
-      console.log('Delete a tag, coming soon...');
-      // api.remove(`/api/tags/${tagId}`)
-      //   .then(() => {
-      //     return api.search('/api/tags');
-      //   })
-      //   .then(response => {
-      //     store.tags = response;
-      //     return api.search('/api/notes', store.currentQuery);
-      //   })
-      //   .then(response => {
-      //     store.notes = response;
-      //     render();
-      //   });
+      api.remove(`/api/tags/${tagId}`)
+        .then(() => {
+          return api.search('/api/tags');
+        })
+        .then(response => {
+          store.tags = response;
+          return api.search('/api/notes', store.currentQuery);
+        })
+        .then(response => {
+          store.notes = response;
+          render();
+        });
     });
   }
 

@@ -15,7 +15,6 @@ router.get('/', (req, res, next) => {
 });
 
 
-
 /* ========== Get tag by ID ========== */
 router.get('/:id', (req, res, next) => {
   const tagId = req.params.id;
@@ -68,7 +67,6 @@ router.put('/:id', (req, res, next) => {
 });
 
 
-
 /* ========== Post/create tag ========== */
 router.post('/', (req, res, next) => {
   const { name } = req.body;
@@ -93,7 +91,6 @@ router.post('/', (req, res, next) => {
 });
 
 
-
 /* ========== Delete tag ========== */
 router.delete('/:id', (req, res, next) => {
   const tagId = req.params.id;
@@ -111,9 +108,6 @@ router.delete('/:id', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
-
-
 
 
 module.exports = router;

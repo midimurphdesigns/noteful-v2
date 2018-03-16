@@ -9,12 +9,17 @@
 	},
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "cross-env NODE_ENV=production node server.js",
+		"dev": "cross-env NODE_ENV=development nodemon server.js"
 	},
 	"dependencies": {
 		"express": "^4.16.2",
 		"knex": "^0.14.4",
 		"morgan": "^1.9.0",
 		"pg": "^7.4.1"
+	},
+	"devDependencies": {
+		"cross-env": "^5.1.4",
+		"nodemon": "^1.17.2"
 	}
 }
