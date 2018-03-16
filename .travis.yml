@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: kUGOCSni8uLt7QsvZh0eVJHiv5W81CgjJD9p4kYU7ecMltDoszm10AtaiOGocRFIRWV9ZDmwRnNtPsOEX0ESFcKaDG9RLNujJTQ8Si0kZe91szMi+2/2gCFk9GBl/LuwO7uK55b/N1qp08Sx2Ar+MHFjwXtEcddb8KeuA/h4qkUVhCdO+x4J1aWA8++70jDNLk94fb/0BlI372iOgBTV94KtnHoTVX/qOmCwtotKzqanH3dwveO2qxcHvNH3PcjbjEsz/h4kL29IHUkPtyKnblsNmODK1k2U4WGdOgaTBaCoW9CQn7Rnlcv+BTB2/RtZAV3/fYzYaxu7TKiNIlEXnpA7Tiae+krByx7zOezAU03Xir+Q0oZbhGB3/EbjBrAzIDOc70KI7yj9fmH/YFcbx41jF8WMunA2I/Ys7+rV/+5vRT4ptuoaUqQlZFF+VOeDaAcUVlv/73yWaso9hgqDxKsWbXt+zgItMDIUTSs/ma932s4np3KbKj7ET8gDoPK3OYEJl3/Yy8nmLy3h6KinqLnb2jwIVWZ8eW1WssiEwb9V+T2foRi4eqOUZEr47JpahiGcRrqKRAbdlmx2qptvF6pvdvA/QA/Gv4QFaNgxGrcNafwQaYkFWPqreFuui8xM/zyOY6gfXAkfjgg4UXHnxgGMyVrjr03c8bTh1pp1YWk=
+  app: kevin-noteful-v2
+  on:
+    repo: thinkful-ei19/kevin-noteful-v2
