@@ -3,12 +3,12 @@ node_js: node
 deploy:
   provider: heroku
   api_key:
-    secure: kUGOCSni8uLt7QsvZh0eVJHiv5W81CgjJD9p4kYU7ecMltDoszm10AtaiOGocRFIRWV9ZDmwRnNtPsOEX0ESFcKaDG9RLNujJTQ8Si0kZe91szMi+2/2gCFk9GBl/LuwO7uK55b/N1qp08Sx2Ar+MHFjwXtEcddb8KeuA/h4qkUVhCdO+x4J1aWA8++70jDNLk94fb/0BlI372iOgBTV94KtnHoTVX/qOmCwtotKzqanH3dwveO2qxcHvNH3PcjbjEsz/h4kL29IHUkPtyKnblsNmODK1k2U4WGdOgaTBaCoW9CQn7Rnlcv+BTB2/RtZAV3/fYzYaxu7TKiNIlEXnpA7Tiae+krByx7zOezAU03Xir+Q0oZbhGB3/EbjBrAzIDOc70KI7yj9fmH/YFcbx41jF8WMunA2I/Ys7+rV/+5vRT4ptuoaUqQlZFF+VOeDaAcUVlv/73yWaso9hgqDxKsWbXt+zgItMDIUTSs/ma932s4np3KbKj7ET8gDoPK3OYEJl3/Yy8nmLy3h6KinqLnb2jwIVWZ8eW1WssiEwb9V+T2foRi4eqOUZEr47JpahiGcRrqKRAbdlmx2qptvF6pvdvA/QA/Gv4QFaNgxGrcNafwQaYkFWPqreFuui8xM/zyOY6gfXAkfjgg4UXHnxgGMyVrjr03c8bTh1pp1YWk=
+    secure: KNvmwhH5SmmxNSOuycHzEZQBzSQ8WHDyqaqDB6CYhz7NXJJm/7al2oBIj7/ZOPPtF6wZNi4AosocrHioS1kKxzlALXtEZMLh49Vl4oyFCY0IsDYI2MuTTrP3K7QjGxX8fhuS12Kh4qLyVBjGFnN1a5MkLDV24gEr68IZumkicOJpXSNuiChrs1L2RORwglqCnTKkJkh/BU2mNxxtsUGWe65Ca9+kMcCzRs1YUjVpufBb0at6J9RtRVcxp04qS0kkwuBcIe4R8l0BLaDsGBTRKDYoPn71RxtGU7JMdDErvhIqfNpFIY3dqQK2fY4AYYshFNfa2IKpZO08nkJ/clDhHlUaBtqUmqk+q2BeBCPOGAF2mje12I5kYrNRrxxfLwnpWqcruv/nv4PuoWWMNsfu3jfGE6WMZeedqO7xx7GW8mvdcsSv8hDiyv7LzJK7EjjMi3eyZpKJvwlHknLyGAQq8hkUz8a4muFYwZ4o7/YcOzbkG6elQl495DG9rjIroKXyDUcQWZ6PHEIPAymeCgt5DFmg043MaaIJU4VvZSfBhlluVCDs6D+roSoVcK0tGwy4GJLkHZ0LcKSUtPzCifQ5MIK1g/TnzpmUVcLzdO3x++ggF8ZRRAyT//0GnchJYnzZEqx+YVom51g7l+0YI+dQEuTvCXscx7nodVQVi/strDM=
   app: desolate-dusk-77065
   on:
     repo: thinkful-ei19/kevin-noteful-v2
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -U postgres -c 'CREATE DATABASE "noteful-test";'
-  - psql -U postgres -f ./db/noteful.sql -d noteful-test
+- psql -U postgres -c 'CREATE DATABASE "noteful-test";'
+- psql -U postgres -f ./db/noteful.sql -d noteful-test
