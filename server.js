@@ -23,7 +23,7 @@ app.use(express.static('public'));
 // Parse request body
 app.use(express.json());
 
-// Mount router on "/v2"
+// Mount router on "/api"
 app.use('/api/notes', notesRouterV2);
 app.use('/api/folders', foldersRouterV2);
 app.use('/api/tags', tagsRouterV2);
@@ -45,9 +45,21 @@ app.use(function (err, req, res, next) {
   });
 });
 
-// Listen for incoming connections
-app.listen(PORT, function () {
-  console.info(`Server listening on ${this.address().port}`);
-}).on('error', err => {
-  console.error(err);
-});
+if (require.main === module) {
+  app.listen(PORT, function () {
+    console.info(`Server listening on ${this.address().port}`);
+  }).on('error', err => {
+    console.error(err);
+  });
+}
+
+app.startServer = function(port) {
+  return new Promise((resolve,reject) => {
+    this.listen(port, function() {
+      this.stopServer = require('util').promisify(this.close);
+      resolve(this);
+    }).on('error', reject);
+  });
+};
+
+module.exports = app; // Export for testing
