@@ -49,7 +49,7 @@ router.get('/:id', (req, res, next) => {
   //maybe it's tagsId??
   const tagId = req.params.tagId;
 
-  knex.select('notes.id as note_Id', 'title', 'content', 'folders.id as folder_Id', 'folders.name as folderName', 'tags.name as tags_name')
+  knex.select('notes.id as id', 'title', 'content', 'folders.id as folder_Id', 'folders.name as folderName', 'tags.name as tags_name')
     .from('notes')
     .where({ 'notes.id': noteId })
     .leftJoin('folders', 'notes.folder_id', 'folders.id')
@@ -122,6 +122,12 @@ router.post('/', (req, res, next) => {
     content: content,
     folder_id: folder_id  // Add `folder_id`
   };
+
+  if (!newItem.title) {
+    const err = new Error('Missing `title` in request body');
+    err.status = 400;
+    return next(err);
+  }
 
   let noteId;
 
